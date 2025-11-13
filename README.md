@@ -1,4 +1,4 @@
-# 🏥 Optimizador Hospitalario con K-Means
+## Optimizador Hospitalario con K-Means
 
 <img width="955" height="868" alt="banner" src="https://github.com/user-attachments/assets/215f4f06-34cd-4ab8-aa01-a3adf114200d" />
 
