@@ -93,7 +93,7 @@ Limpia la cuadrícula, borra resultados y devuelve todos los parámetros a sus v
 
 ---
 
-## 👁️ Visualización
+##  Visualización
 
 ###  **Vista 2D**
 Permite observar la distribución espacial de los hospitales y viviendas en un plano cartesiano.
@@ -102,7 +102,7 @@ Permite observar la distribución espacial de los hospitales y viviendas en un p
 - 🔴 **Hospitales:** centroides calculados por el algoritmo.  
 - 🟣 **Clústeres:** zonas de influencia asignadas a cada hospital.  
 
-> 📈 Esta vista facilita la interpretación visual de la cobertura y la eficiencia del sistema.
+>  Esta vista facilita la interpretación visual de la cobertura y la eficiencia del sistema.
 
 ---
 
