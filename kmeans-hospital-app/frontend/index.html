@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Means Hospital Optimizer - 2D & 3D</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>🏥 K-Means Optimizer</h1>
+                <p>Sistema 2D & 3D Profesional</p>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="section">
+                    <div class="section-title">⚙️ Configuración</div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Filas (m)</span>
+                            <span class="input-value" id="rowsValue">15</span>
+                        </div>
+                        <input type="range" id="rows" min="5" max="50" value="15" oninput="updateValue('rows')">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Columnas (n)</span>
+                            <span class="input-value" id="colsValue">15</span>
+                        </div>
+                        <input type="range" id="cols" min="5" max="50" value="15" oninput="updateValue('cols')">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Casas</span>
+                            <span class="input-value" id="housesValue">30</span>
+                        </div>
+                        <input type="range" id="houses" min="5" max="100" value="30" oninput="updateValue('houses')">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Hospitales (K)</span>
+                            <span class="input-value" id="hospitalsValue">5</span>
+                        </div>
+                        <input type="range" id="hospitals" min="1" max="15" value="5" oninput="updateValue('hospitals')">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Iteraciones Máx</span>
+                            <span class="input-value" id="iterationsValue">100</span>
+                        </div>
+                        <input type="range" id="iterations" min="10" max="500" value="100" oninput="updateValue('iterations')">
+                    </div>
+                </div>
+
+                <div id="alertContainer"></div>
+
+                <button class="btn btn-primary" onclick="runKMeans()">
+                    🚀 EJECUTAR ALGORITMO
+                </button>
+                <button class="btn btn-secondary" onclick="resetSimulation()">
+                    🔄 REINICIAR
+                </button>
+
+                <div class="section">
+                    <div class="section-title">👁️ Visualización</div>
+                    <div class="view-selector">
+                        <button class="view-btn active" id="btn2d" onclick="switchView('2d')">📊 Vista 2D</button>
+                        <button class="view-btn" id="btn3d" onclick="switchView('3d')">🎁 Vista 3D</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">📊 Métricas</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-label">Iteraciones</div>
+                            <div class="stat-card-value" id="statIterations">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Dist. Prom</div>
+                            <div class="stat-card-value" id="statAvgDist">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Dist. Máx</div>
+                            <div class="stat-card-value" id="statMaxDist">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Cobertura</div>
+                            <div class="stat-card-value" id="statCoverage">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">🏥 Información</div>
+                    <div class="cluster-list" id="clusterInfo">
+                        <p style="text-align: center; color: #8b8b9a; font-size: 12px; padding: 20px;">
+                            Ejecuta el algoritmo para ver resultados
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="top-bar-title" id="viewTitle">Visualización 2D</div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <!-- Canvas 2D -->
+                <div class="canvas-container" id="container2d">
+                    <canvas id="canvas2d"></canvas>
+                </div>
+
+                <!-- Canvas 3D -->
+                <div class="canvas-container hidden" id="container3d">
+                    <canvas id="canvas3d"></canvas>
+                </div>
+
+                <div class="canvas-overlay">
+                    <div class="legend-title">Leyenda</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3498db;"></div>
+                        <span>Casas</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e74c3c;"></div>
+                        <span>Hospitales</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: rgba(102, 126, 234, 0.3);"></div>
+                        <span>Clusters</span>
+                    </div>
+                </div>
+
+                <div class="controls-info">
+                    <strong id="controlsTitle">Controles 2D</strong><br>
+                    <span id="controlsText">
+                        🖱️ Zoom visual automático<br>
+                        ⌨️ Enter: Ejecutar<br>
+                        ⌨️ R: Reiniciar
+                    </span>
+                </div>
+
+                <div class="loading-overlay hidden" id="loadingOverlay">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Optimizando ubicaciones...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/kmeans.js"></script>
+    <script src="js/visualization.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
