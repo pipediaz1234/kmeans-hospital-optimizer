@@ -34,11 +34,39 @@ Este proyecto combina **ciencia de datos, visualización interactiva y análisis
 | **Lenguaje** | Python 🐍 |
 | **Librerías principales** | Scikit-learn, Pandas, NumPy, Matplotlib, Seaborn, Plotly |
 | **Visualización web** | HTML5, CSS3, JavaScript, Streamlit / Flask |
-| **Despliegue** | Netlify 🌐 |
+| **Despliegue** | Netlify 🌐(Web) |Docker (local) 🐳|
 | **Control de versiones** | Git + GitHub 🧩 |
 
 ---
+## Despliegue Local con Docker
 
+El proyecto puede ejecutarse de manera local mediante contenedores Docker, lo que facilita la portabilidad, la escalabilidad y la replicación del entorno de desarrollo.
+
+ Pasos para ejecutar localmente
+
+Clonar el repositorio:
+
+git clone https://github.com/pipediaz1234/kmeans-hospital.git
+cd kmeans-hospital
+
+
+Crear y ejecutar el contenedor:
+
+docker build -t hospital-optimizer .
+docker run -p 8501:8501 hospital-optimizer
+
+
+Abrir en el navegador:
+
+http://localhost:8501
+
+
+ Esto iniciará la aplicación desarrollada en Streamlit o Flask, totalmente funcional en un entorno aislado y reproducible, ideal para pruebas o demostraciones locales.
+Esto levantará la aplicación con Streamlit o Flask, según la versión, totalmente funcional en un entorno aislado.
+
+<img width="1591" height="772" alt="image" src="https://github.com/user-attachments/assets/a82b825e-71a7-43f9-b26c-784d7ff9e1c4" />
+
+---
 ##  Configuración y Parámetros del Sistema
 
 Esta sección define los valores iniciales del algoritmo y el entorno de simulación.  
